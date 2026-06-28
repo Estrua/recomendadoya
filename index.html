@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RecomendadoYa — Los mejores productos, elegidos para ti</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --negro: #0A0A0F;
+    --carbon: #12121A;
+    --gris-oscuro: #1C1C28;
+    --gris-borde: #2A2A3A;
+    --gris-texto: #8888AA;
+    --blanco: #F0F0FF;
+    --acento: #FF5C35;
+    --acento-suave: #FF5C3520;
+    --verde: #22C55E;
+    --display: 'Syne', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--negro);
+    color: var(--blanco);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gris-borde);
+  }
+
+  .logo {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--blanco);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .logo span { color: var(--acento); }
+
+  nav ul {
+    display: flex; gap: 2rem; list-style: none;
+  }
+
+  nav ul a {
+    color: var(--gris-texto);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  nav ul a:hover { color: var(--blanco); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(255,92,53,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--acento-suave);
+    border: 1px solid rgba(255,92,53,0.3);
+    color: var(--acento);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    max-width: 900px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--acento);
+  }
+
+  .hero p {
+    font-size: 1.15rem;
+    color: var(--gris-texto);
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+  }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--acento);
+    color: white;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 30px rgba(255,92,53,0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(255,92,53,0.5);
+  }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    color: var(--gris-texto);
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid var(--gris-borde);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--blanco); border-color: var(--gris-texto); }
+
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 4rem;
+    flex-wrap: wrap; justify-content: center;
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-family: var(--display);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--blanco);
+    display: block;
+  }
+
+  .stat-label { font-size: 0.8rem; color: var(--gris-texto); }
+
+  /* NICHOS */
+  .section {
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--acento);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    color: var(--gris-texto);
+    font-size: 1rem;
+    max-width: 500px;
+    margin-bottom: 3rem;
+  }
+
+  .nichos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .nicho-card {
+    background: var(--carbon);
+    border: 1px solid var(--gris-borde);
+    border-radius: 16px;
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nicho-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--acento);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .nicho-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,92,53,0.4);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  .nicho-card:hover::before { transform: scaleX(1); }
+
+  .nicho-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .nicho-title {
+    font-family: var(--display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .nicho-desc {
+    color: var(--gris-texto);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .nicho-tags {
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+  }
+
+  .tag {
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    background: var(--gris-oscuro);
+    color: var(--gris-texto);
+    border: 1px solid var(--gris-borde);
+  }
+
+  /* PRODUCTOS DESTACADOS */
+  .productos-section {
+    background: var(--carbon);
+    border-top: 1px solid var(--gris-borde);
+    border-bottom: 1px solid var(--gris-borde);
+    padding: 5rem 2rem;
+  }
+
+  .productos-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .producto-card {
+    background: var(--negro);
+    border: 1px solid var(--gris-borde);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .producto-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  }
+
+  .producto-img {
+    width: 100%;
+    height: 160px;
+    background: var(--gris-oscuro);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+  }
+
+  .producto-body { padding: 1.25rem; }
+
+  .producto-cat {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--acento);
+    margin-bottom: 0.5rem;
+  }
+
+  .producto-nombre {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+  }
+
+  .producto-precio {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--blanco);
+    margin-bottom: 0.75rem;
+  }
+
+  .producto-precio span {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--gris-texto);
+    text-decoration: line-through;
+    margin-left: 0.4rem;
+  }
+
+  .stars { color: #FBBF24; font-size: 0.8rem; margin-bottom: 1rem; }
+
+  .btn-comprar {
+    display: block;
+    text-align: center;
+    background: var(--acento);
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 0.7rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .btn-comprar:hover { opacity: 0.85; }
+
+  /* COMPARATIVA */
+  .comparativa-section {
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .tabla-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--gris-borde);
+    margin-top: 2.5rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  thead { background: var(--gris-oscuro); }
+
+  th {
+    padding: 1rem 1.25rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gris-texto);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--gris-borde);
+    color: var(--blanco);
+  }
+
+  tr:hover td { background: var(--gris-oscuro); }
+
+  .check { color: var(--verde); font-weight: 700; }
+  .best-row td { background: rgba(255,92,53,0.05); }
+  .best-badge {
+    display: inline-block;
+    background: var(--acento);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+
+  /* CONFIANZA */
+  .confianza-section {
+    background: var(--gris-oscuro);
+    border-top: 1px solid var(--gris-borde);
+    border-bottom: 1px solid var(--gris-borde);
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .confianza-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    max-width: 900px;
+    margin: 2.5rem auto 0;
+  }
+
+  .confianza-item {
+    flex: 1;
+    min-width: 180px;
+    max-width: 220px;
+  }
+
+  .confianza-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+
+  .confianza-titulo {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .confianza-texto {
+    font-size: 0.8rem;
+    color: var(--gris-texto);
+    line-height: 1.5;
+  }
+
+  /* NEWSLETTER */
+  .newsletter-section {
+    padding: 5rem 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .newsletter-form {
+    display: flex; gap: 0.75rem; margin-top: 2rem; flex-wrap: wrap;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    min-width: 200px;
+    background: var(--carbon);
+    border: 1px solid var(--gris-borde);
+    color: var(--blanco);
+    font-size: 0.95rem;
+    padding: 0.85rem 1.25rem;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .newsletter-form input:focus { border-color: var(--acento); }
+  .newsletter-form input::placeholder { color: var(--gris-texto); }
+
+  /* FOOTER */
+  footer {
+    background: var(--carbon);
+    border-top: 1px solid var(--gris-borde);
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: var(--display);
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--blanco);
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-logo span { color: var(--acento); }
+
+  .footer-disclaimer {
+    font-size: 0.75rem;
+    color: var(--gris-texto);
+    max-width: 600px;
+    margin: 0.75rem auto 0;
+    line-height: 1.6;
+  }
+
+  footer nav {
+    position: static;
+    background: none;
+    border: none;
+    backdrop-filter: none;
+    padding: 1rem 0;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  footer nav ul { gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    nav ul { display: none; }
+    .hero-stats { gap: 1.5rem; }
+    .newsletter-form { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Recomendado<span>Ya</span></a>
+  <ul>
+    <li><a href="#nichos">Categorías</a></li>
+    <li><a href="#productos">Destacados</a></li>
+    <li><a href="#comparativa">Comparativas</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Actualizando ofertas hoy</div>
+  <h1>Antes de comprar,<br><em>pregúntanos.</em></h1>
+  <p>Analizamos cientos de productos para que tú solo tengas que hacer una cosa: elegir el mejor.</p>
+  <div class="hero-cta">
+    <a href="#productos" class="btn-primary">Ver destacados →</a>
+    <a href="#nichos" class="btn-ghost">Explorar categorías</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">500+</span>
+      <span class="stat-label">Productos analizados</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">4</span>
+      <span class="stat-label">Categorías especializadas</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">Opinión independiente</span>
+    </div>
+  </div>
+</section>
+
+<!-- NICHOS -->
+<section class="section" id="nichos">
+  <div class="section-label">Categorías</div>
+  <h2 class="section-title">Encuentra lo que buscas</h2>
+  <p class="section-sub">Cuatro mundos donde ayudamos a elegir mejor cada día.</p>
+
+  <div class="nichos-grid">
+    <a href="#" class="nicho-card">
+      <span class="nicho-icon">✨</span>
+      <div class="nicho-title">Belleza de Lujo</div>
+      <p class="nicho-desc">Skincare premium, perfumes y cosméticos que realmente funcionan. Filtramos lo bueno del ruido.</p>
+      <div class="nicho-tags">
+        <span class="tag">Skincare</span>
+        <span class="tag">Perfumes</span>
+        <span class="tag">Maquillaje</span>
+        <span class="tag">K-Beauty</span>
+      </div>
+    </a>
+
+    <a href="#" class="nicho-card">
+      <span class="nicho-icon">🏠</span>
+      <div class="nicho-title">Hogar Inteligente</div>
+      <p class="nicho-desc">Dispositivos que hacen tu vida más fácil, segura y eficiente. La tecnología que sí vale.</p>
+      <div class="nicho-tags">
+        <span class="tag">Cámaras</span>
+        <span class="tag">Asistentes</span>
+        <span class="tag">Seguridad</span>
+        <span class="tag">Robots</span>
+      </div>
+    </a>
+
+    <a href="#" class="nicho-card">
+      <span class="nicho-icon">💪</span>
+      <div class="nicho-title">Fitness & Bienestar</div>
+      <p class="nicho-desc">Equipos, suplementos y gadgets para tu salud. Probados, comparados y recomendados.</p>
+      <div class="nicho-tags">
+        <span class="tag">Relojes fit</span>
+        <span class="tag">Equipos</span>
+        <span class="tag">Suplementos</span>
+        <span class="tag">Yoga</span>
+      </div>
+    </a>
+
+    <a href="#" class="nicho-card">
+      <span class="nicho-icon">💻</span>
+      <div class="nicho-title">Oficina en Casa</div>
+      <p class="nicho-desc">Tu espacio de trabajo merece lo mejor. Sillas, escritorios, monitores y más.</p>
+      <div class="nicho-tags">
+        <span class="tag">Sillas</span>
+        <span class="tag">Monitores</span>
+        <span class="tag">Auriculares</span>
+        <span class="tag">Escritorios</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- PRODUCTOS DESTACADOS -->
+<section class="productos-section" id="productos">
+  <div class="productos-inner">
+    <div class="section-label">Esta semana</div>
+    <h2 class="section-title">Productos más recomendados</h2>
+
+    <div class="productos-grid">
+
+      <div class="producto-card">
+        <div class="producto-img">✨</div>
+        <div class="producto-body">
+          <div class="producto-cat">Belleza de lujo</div>
+          <div class="producto-nombre">Set Skincare Vitamina C Premium</div>
+          <div class="stars">★★★★★ (2,341)</div>
+          <div class="producto-precio">$49.99 <span>$79.99</span></div>
+          <a href="TU-LINK-AFILIADO-AQUI" class="btn-comprar">Ver en Amazon →</a>
+        </div>
+      </div>
+
+      <div class="producto-card">
+        <div class="producto-img">🏠</div>
+        <div class="producto-body">
+          <div class="producto-cat">Hogar inteligente</div>
+          <div class="producto-nombre">Cámara de seguridad WiFi 4K</div>
+          <div class="stars">★★★★☆ (5,102)</div>
+          <div class="producto-precio">$89.99 <span>$129.99</span></div>
+          <a href="TU-LINK-AFILIADO-AQUI" class="btn-comprar">Ver en Amazon →</a>
+        </div>
+      </div>
+
+      <div class="producto-card">
+        <div class="producto-img">💪</div>
+        <div class="producto-body">
+          <div class="producto-cat">Fitness</div>
+          <div class="producto-nombre">Reloj Deportivo GPS + Monitor cardíaco</div>
+          <div class="stars">★★★★★ (8,744)</div>
+          <div class="producto-precio">$119.99 <span>$179.99</span></div>
+          <a href="TU-LINK-AFILIADO-AQUI" class="btn-comprar">Ver en Amazon →</a>
+        </div>
+      </div>
+
+      <div class="producto-card">
+        <div class="producto-img">💻</div>
+        <div class="producto-body">
+          <div class="producto-cat">Oficina en casa</div>
+          <div class="producto-nombre">Silla Ergonómica Lumbar Ajustable</div>
+          <div class="stars">★★★★★ (3,218)</div>
+          <div class="producto-precio">$199.99 <span>$299.99</span></div>
+          <a href="TU-LINK-AFILIADO-AQUI" class="btn-comprar">Ver en Amazon →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMPARATIVA -->
+<section class="comparativa-section" id="comparativa">
+  <div class="section-label">Comparativa</div>
+  <h2 class="section-title">Relojes fitness — ¿Cuál elegir?</h2>
+  <p class="section-sub">Analizamos los 4 más vendidos para que no pierdas tiempo investigando.</p>
+
+  <div class="tabla-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Modelo</th>
+          <th>Precio</th>
+          <th>GPS</th>
+          <th>Batería</th>
+          <th>Rating</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="best-row">
+          <td><strong>Modelo A Pro</strong><span class="best-badge">Mejor opción</span></td>
+          <td>$119</td>
+          <td class="check">✓</td>
+          <td>14 días</td>
+          <td>★★★★★</td>
+          <td><a href="TU-LINK-AFILIADO-AQUI" class="btn-comprar" style="padding:0.4rem 0.8rem;font-size:0.8rem">Ver →</a></td>
+        </tr>
+        <tr>
+          <td>Modelo B Sport</td>
+          <td>$89</td>
+          <td class="check">✓</td>
+          <td>7 días</td>
+          <td>★★★★☆</td>
+          <td><a href="TU-LINK-AFILIADO-AQUI" class="btn-comprar" style="padding:0.4rem 0.8rem;font-size:0.8rem">Ver →</a></td>
+        </tr>
+        <tr>
+          <td>Modelo C Basic</td>
+          <td>$59</td>
+          <td>—</td>
+          <td>10 días</td>
+          <td>★★★★☆</td>
+          <td><a href="TU-LINK-AFILIADO-AQUI" class="btn-comprar" style="padding:0.4rem 0.8rem;font-size:0.8rem">Ver →</a></td>
+        </tr>
+        <tr>
+          <td>Modelo D Ultra</td>
+          <td>$249</td>
+          <td class="check">✓</td>
+          <td>21 días</td>
+          <td>★★★★★</td>
+          <td><a href="TU-LINK-AFILIADO-AQUI" class="btn-comprar" style="padding:0.4rem 0.8rem;font-size:0.8rem">Ver →</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CONFIANZA -->
+<section class="confianza-section">
+  <div class="section-label">¿Por qué RecomendadoYa?</div>
+  <h2 class="section-title">Aquí no vendemos humo</h2>
+
+  <div class="confianza-grid">
+    <div class="confianza-item">
+      <div class="confianza-icon">🔍</div>
+      <div class="confianza-titulo">Análisis real</div>
+      <p class="confianza-texto">Cada producto pasa por revisión de especificaciones, reseñas y comparativas antes de aparecer aquí.</p>
+    </div>
+    <div class="confianza-item">
+      <div class="confianza-icon">💰</div>
+      <div class="confianza-titulo">Sin costo para ti</div>
+      <p class="confianza-texto">Ganamos una pequeña comisión si compras. El precio que pagas en Amazon es exactamente el mismo.</p>
+    </div>
+    <div class="confianza-item">
+      <div class="confianza-icon">🔄</div>
+      <div class="confianza-titulo">Actualización diaria</div>
+      <p class="confianza-texto">Los precios y disponibilidad cambian. Revisamos y actualizamos cada día para darte info fresca.</p>
+    </div>
+    <div class="confianza-item">
+      <div class="confianza-icon">🎯</div>
+      <div class="confianza-titulo">Solo lo mejor</div>
+      <p class="confianza-texto">No ponemos todo lo que existe. Solo lo que realmente recomendaríamos a un amigo o familiar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section">
+  <div class="section-label">Alertas de ofertas</div>
+  <h2 class="section-title">Que las mejores ofertas no te pilien dormido</h2>
+  <p style="color:var(--gris-texto);font-size:0.95rem;margin-top:0.75rem">Recibe los mejores deals de Amazon antes que nadie. Sin spam, solo lo bueno.</p>
+  <div class="newsletter-form">
+    <input type="email" placeholder="tu@email.com">
+    <a href="#" class="btn-primary">Suscribirme →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Recomendado<span>Ya</span></div>
+  <nav>
+    <ul>
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#nichos">Categorías</a></li>
+      <li><a href="#productos">Destacados</a></li>
+      <li><a href="#">Contacto</a></li>
+      <li><a href="#">Política de privacidad</a></li>
+    </ul>
+  </nav>
+  <p class="footer-disclaimer">
+    RecomendadoYa.com participa en el Programa de Afiliados de Amazon. Esto significa que ganamos comisiones por las compras realizadas a través de nuestros enlaces, sin ningún costo adicional para ti. Toda nuestra opinión es independiente.
+  </p>
+</footer>
+
+</body>
+</html>
