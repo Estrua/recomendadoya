@@ -545,6 +545,20 @@
 
   footer nav ul { gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
 
+  .btn-filtro {
+    background: var(--gris-oscuro);
+    border: 1px solid var(--gris-borde);
+    color: var(--gris-texto);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-filtro:hover { border-color: var(--acento); color: var(--blanco); }
+  .btn-filtro.activo { background: var(--acento); border-color: var(--acento); color: white; }
+
   /* RESPONSIVE */
   @media (max-width: 640px) {
     nav ul { display: none; }
@@ -597,7 +611,7 @@
   <p class="section-sub">Cuatro mundos donde ayudamos a elegir mejor cada día.</p>
 
   <div class="nichos-grid">
-    <a href="#" class="nicho-card">
+    <a href="#productos" class="nicho-card" onclick="filtrar('belleza')">
       <span class="nicho-icon">✨</span>
       <div class="nicho-title">Belleza de Lujo</div>
       <p class="nicho-desc">Skincare premium, perfumes y cosméticos que realmente funcionan. Filtramos lo bueno del ruido.</p>
@@ -609,7 +623,7 @@
       </div>
     </a>
 
-    <a href="#" class="nicho-card">
+    <a href="#productos" class="nicho-card" onclick="filtrar('hogar')">
       <span class="nicho-icon">🏠</span>
       <div class="nicho-title">Hogar Inteligente</div>
       <p class="nicho-desc">Dispositivos que hacen tu vida más fácil, segura y eficiente. La tecnología que sí vale.</p>
@@ -621,7 +635,7 @@
       </div>
     </a>
 
-    <a href="#" class="nicho-card">
+    <a href="#productos" class="nicho-card" onclick="filtrar('fitness')">
       <span class="nicho-icon">💪</span>
       <div class="nicho-title">Fitness & Bienestar</div>
       <p class="nicho-desc">Equipos, suplementos y gadgets para tu salud. Probados, comparados y recomendados.</p>
@@ -633,7 +647,7 @@
       </div>
     </a>
 
-    <a href="#" class="nicho-card">
+    <a href="#productos" class="nicho-card" onclick="filtrar('oficina')">
       <span class="nicho-icon">💻</span>
       <div class="nicho-title">Oficina en Casa</div>
       <p class="nicho-desc">Tu espacio de trabajo merece lo mejor. Sillas, escritorios, monitores y más.</p>
@@ -653,12 +667,20 @@
     <div class="section-label">Esta semana</div>
     <h2 class="section-title">Productos más recomendados</h2>
 
-    <div class="productos-grid">
+    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem;margin-top:1rem;">
+      <button onclick="filtrar('todos')" class="btn-filtro activo" id="f-todos">Todos</button>
+      <button onclick="filtrar('belleza')" class="btn-filtro" id="f-belleza">✨ Belleza</button>
+      <button onclick="filtrar('cabello')" class="btn-filtro" id="f-cabello">💆 Cabello</button>
+      <button onclick="filtrar('fitness')" class="btn-filtro" id="f-fitness">💪 Fitness</button>
+      <button onclick="filtrar('hogar')" class="btn-filtro" id="f-hogar">🏠 Hogar</button>
+      <button onclick="filtrar('oficina')" class="btn-filtro" id="f-oficina">💻 Oficina</button>
+    </div>
+    <div class="productos-grid" id="grid-productos">
 
       <div class="producto-card">
         <div class="producto-img">✨</div>
         <div class="producto-body">
-          <div class="producto-cat">Belleza de lujo</div>
+          <div class="producto-cat" data-cat="belleza">Belleza de lujo</div>
           <div class="producto-nombre">TruSkin Suero de Vitamina C Antienvejecimiento</div>
           <div class="stars">★★★★☆ (155,701)</div>
           <div class="producto-precio">$19.99</div>
@@ -669,7 +691,7 @@
       <div class="producto-card">
         <div class="producto-img">💧</div>
         <div class="producto-body">
-          <div class="producto-cat">Belleza de lujo</div>
+          <div class="producto-cat" data-cat="belleza">Belleza de lujo</div>
           <div class="producto-nombre">La Roche-Posay Toleriane — Crema hidratante con ceramida y niacinamida</div>
           <div class="stars">★★★★★ (50,000+)</div>
           <div class="producto-precio">$22.99</div>
@@ -680,7 +702,7 @@
       <div class="producto-card">
         <div class="producto-img">🌸</div>
         <div class="producto-body">
-          <div class="producto-cat">Belleza de lujo</div>
+          <div class="producto-cat" data-cat="belleza">Belleza de lujo</div>
           <div class="producto-nombre">TATCHA The Rice Wash — Limpiador facial suave para piel luminosa</div>
           <div class="stars">★★★★★ (12,000+)</div>
           <div class="producto-precio">$38.00</div>
@@ -691,7 +713,7 @@
       <div class="producto-card">
         <div class="producto-img">🌟</div>
         <div class="producto-body">
-          <div class="producto-cat">Belleza antiedad</div>
+          <div class="producto-cat" data-cat="belleza">Belleza antiedad</div>
           <div class="producto-nombre">No7 Lift & Luminate — Crema facial triple acción SPF 30 con péptidos</div>
           <div class="stars">★★★★☆ (8,000+)</div>
           <div class="producto-precio">$24.99</div>
@@ -702,7 +724,7 @@
       <div class="producto-card">
         <div class="producto-img">💆</div>
         <div class="producto-body">
-          <div class="producto-cat">Cabello</div>
+          <div class="producto-cat" data-cat="cabello">Cabello</div>
           <div class="producto-nombre">Pantene Pro-V — Set champú y acondicionador hidratación 72 horas</div>
           <div class="stars">★★★★☆ (25,000+)</div>
           <div class="producto-precio">$29.99</div>
@@ -713,7 +735,7 @@
       <div class="producto-card">
         <div class="producto-img">💇</div>
         <div class="producto-body">
-          <div class="producto-cat">Cabello</div>
+          <div class="producto-cat" data-cat="cabello">Cabello</div>
           <div class="producto-nombre">TYMO CurlPro Plus — Rizador automático cerámico anti-quemaduras</div>
           <div class="stars">★★★★☆ (6,500+)</div>
           <div class="producto-precio">$49.99</div>
@@ -724,7 +746,7 @@
       <div class="producto-card">
         <div class="producto-img">💪</div>
         <div class="producto-body">
-          <div class="producto-cat">Fitness & salud</div>
+          <div class="producto-cat" data-cat="fitness">Fitness & salud</div>
           <div class="producto-nombre">WHOOP 5.0 — Rastreador de salud y sueño 24/7 con membresía 12 meses</div>
           <div class="stars">★★★★☆ (15,000+)</div>
           <div class="producto-precio">$239.00</div>
@@ -735,7 +757,7 @@
       <div class="producto-card">
         <div class="producto-img">💍</div>
         <div class="producto-body">
-          <div class="producto-cat">Fitness & salud</div>
+          <div class="producto-cat" data-cat="fitness">Fitness & salud</div>
           <div class="producto-nombre">Oura Ring 4 — Anillo inteligente de salud y sueño</div>
           <div class="stars">★★★★★ (20,000+)</div>
           <div class="producto-precio">$349.00</div>
@@ -746,7 +768,7 @@
       <div class="producto-card">
         <div class="producto-img">💻</div>
         <div class="producto-body">
-          <div class="producto-cat">Oficina en casa</div>
+          <div class="producto-cat" data-cat="oficina">Oficina en casa</div>
           <div class="producto-nombre">Silla Ergonómica Ajustable para Oficina</div>
           <div class="stars">★★★★☆ (8,500+)</div>
           <div class="producto-precio">$189.99</div>
@@ -757,7 +779,7 @@
       <div class="producto-card">
         <div class="producto-img">🏠</div>
         <div class="producto-body">
-          <div class="producto-cat">Hogar inteligente</div>
+          <div class="producto-cat" data-cat="hogar">Hogar inteligente</div>
           <div class="producto-nombre">Cámara de Seguridad WiFi Interior</div>
           <div class="stars">★★★★☆ (4,800+)</div>
           <div class="producto-precio">$29.99</div>
@@ -882,5 +904,22 @@
   </p>
 </footer>
 
+<script>
+function filtrar(cat) {
+  const cards = document.querySelectorAll('.producto-card');
+  cards.forEach(card => {
+    const cardCat = card.querySelector('[data-cat]');
+    if (!cardCat) return;
+    if (cat === 'todos' || cardCat.getAttribute('data-cat') === cat) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('activo'));
+  const btn = document.getElementById('f-' + cat);
+  if (btn) btn.classList.add('activo');
+}
+</script>
 </body>
 </html>
